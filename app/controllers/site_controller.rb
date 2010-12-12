@@ -75,6 +75,12 @@ class SiteController < ApplicationController
   def unread_venues
     @unread_calling_venues = current_user.followings.where(:has_new_calling => true,:followable_type => "Venue").map(&:followable)
     @unread_topic_venues = current_user.followings.where(:has_new_topic => true,:followable_type => "Venue").map(&:followable)
+
+  def unread_followers
+    @follows = current_user.follows.where(:unread => true)
+    @followers = @follows.map(&:user)
+    @follows.map{|f| f.update_attribute(:unread,false)}
+
   end
   
 end
