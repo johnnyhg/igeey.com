@@ -19,6 +19,7 @@ Igee::Application.routes.draw do
   match 'unread_plans' => 'site#unread_plans'
   match 'unread_venues' => 'site#unread_venues'
   match 'unread_followers' => 'site#unread_followers'
+
   match 'my_timeline' => 'site#my_timeline'
   match 'city_timeline' => 'site#city_timeline'
   
@@ -27,6 +28,7 @@ Igee::Application.routes.draw do
   match 'setting' => 'users#setting'
   
   match 'search' => 'search#result'
+  match 'search/more' => 'search#more',:as => :more_search
   
   resource :session, :only => [:new, :create, :destroy,:show]
   resource :sync, :only => [:new, :create]
