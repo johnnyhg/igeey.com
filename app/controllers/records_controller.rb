@@ -5,40 +5,24 @@ class RecordsController < ApplicationController
   after_filter :clean_unread, :only => [:show]
   
   def index
-    @actions = Action.all
+    @actions = Action.callable
   end
   
   def new
-    @record = current_user.records.build(:action_id => params[:action_id],:venue_id => params[:venue_id],:plan_id => params[:plan_id])
-    @plan = @record.plan
-    
-    if @plan.nil? && @record.action.nil?
-      @actions = Action.all
-      @venue = Venue.find(params[:venue_id])
+    @record = current_user.records.build(:action_id => params[:action_id],:venue_id => params[:venue_id],:plan_id => params[:plan_id],:project_id => params[:project_id])
+    if @record.action.nil? && @record.plan.nil?
+      @actions = Action.callable
       render :select_action, :layout =>  !(params[:layout] == 'false')
+    elsif @record.plan.present?
+      @record = Record.new(:action => @record.plan.action,:venue => @record.plan.venue,:calling => @record.plan.calling,:plan => @record.plan,:unit => @record.plan.calling.unit)
     end
     
-    if @plan.nil? && @record.venue.nil?
-      @action = Action.find params[:action_id]
-      @following_venues = current_user.followings.where(:followable_type => 'Venue').map(&:followable)
-      @city_venues = current_user.geo.venues if current_user.geo
-      @all_venues = Venue.all
-      render :select_venue
-    end
-    
-    @calling = @plan.nil? ? @record.calling : @plan.calling
-    @venue = @calling.nil? ? @record.venue : @calling.venue
-    @action = @calling.nil? ? @record.action : @calling.action
-    @unit = @calling.nil? ? '件' : @calling.unit
-    @record = Record.new(:action => @action,:venue => @venue,:calling => @calling,:plan => @plan,:unit => @unit)
-    @record.photos.build
   end
   
   def create
     @record = current_user.records.build(params[:record])
     @record.photos.map{|p| p.user_id = current_user.id}
     @record.save
-    @record.photos.build if @record.photos.empty?
     respond_with(@record)
     
   end
