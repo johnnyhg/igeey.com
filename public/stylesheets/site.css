@@ -318,7 +318,7 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
   margin:0 4px;
 }
 
-.record_counter_wrapper h4{color:#39c}
+#record_counters h4{color:#39c}
 
 .record_counter{
   background-color:#39c;
@@ -515,7 +515,12 @@ input.todo:hover{
   height:60px;
   }
 
-.venue_thumb_box{float:left;padding:4px 0 10px}
+.venue_thumb_box,.project_thumb_box{float:left;padding:4px 0 10px}
+
+.project_thumb_cover{
+  width:80px;
+  height:80px;
+  }
 
 .setting_box,.profile_box,.intro_box{
   padding:15px 20px 10px;
@@ -695,7 +700,7 @@ input.todo:hover{
   font-weight:bold;
 }
 
-#record_counters{float:right;height:74px}
+#record_counters{float:right;height:74px;margin-right:4px}
 
 .upload_photo{
   background-color:#f0f0f0;
