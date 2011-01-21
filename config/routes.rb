@@ -38,6 +38,7 @@ Igee::Application.routes.draw do
     member do
       get :cover
       get :position
+      get :records
     end
   end
   
@@ -56,6 +57,7 @@ Igee::Application.routes.draw do
   resources :records do
     get   :select_venue ,:on => :collection
     get   :select_action ,:on => :collection
+    get   :find_by_tag ,:on => :collection
   end
   
   resources :geos do
