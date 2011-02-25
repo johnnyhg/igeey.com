@@ -1,7 +1,7 @@
 body{
   font-size:14px;
   background-color:#bcdcff;
-  color:#666;
+  color:#555;
   word-break:break-all;
   }
 
@@ -18,14 +18,14 @@ h3,h4,h5,h6{
     
 ul,dl{
     margin:6px 0;
-    line-height:1.7em;
+    line-height:1.6em;
     padding:0;
     }
 
 li{list-style:none}
     
 p{
-  line-height:1.7em;
+  line-height:1.6em;
   margin:6px 0;
   }
 
@@ -36,7 +36,7 @@ pre {
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
-  line-height:1.8em;
+  line-height:1.6em;
   margin:5px 0;
   text-align:left;
   } 
@@ -55,6 +55,8 @@ a{
   }  
 
 a:hover{color:#f63}
+
+span a{color:#6ad}
 
 b{text-align:right}
 
@@ -109,7 +111,7 @@ img{border:none;}
 .action_button:hover{color:#fff;background-color:#e86;}
 
 .gary_button{
-   text-align:center;
+    text-align:center;
     margin:0 5px;
     color:white;
     font-size:15px;
@@ -394,7 +396,7 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
   }
 
 .bubble{
-  float:right;
+  float:left;
   width:470px;
   background-color:#e6e6f0;
   color:#505050;
@@ -456,7 +458,7 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
   margin:10px 0;
   font-weight:bold;
   font-size:16px;
-  line-height:1.9em;
+  line-height:1.8em;
   }
   
 .comment{
@@ -476,7 +478,7 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
 }
 
 .event_box{
-  padding:8px 8px 4px;
+  padding:6px;
   border-bottom:1px dashed #ccc;
   overflow:hidden;
   zoom:1;
@@ -486,8 +488,9 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
 .event_box.hover p{color:#777}
 
 .event {
-  width:488px;
+  width:520px;
   margin-left:86px;
+  padding:6px 0;
   }
   
 .event p{
@@ -496,6 +499,15 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
     }
     
 .event_link{color:#777}
+
+.event_info{float:left}
+
+.event_action{
+  text-align:right;
+  font-size:12px;
+  margin-top:10px;
+  color:#aaa;
+}
 
 .event_panel{
   margin:58px 10px 0;
@@ -513,8 +525,6 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
 .comment .event_panel{margin:0;width:520px}
 
 .reply_reply{float:right}
-
-.addition{margin:0}
 
 .photo_box{
   float:left;
@@ -536,12 +546,17 @@ input.todo:hover{
 
 .venue{
   float:left;
-  width:100px;
-  height:80px;
   margin:10px 10px;
-  padding:5px 0;
+  padding:0px 0;
   text-align:center;
 }
+
+.venue img{
+  border:1px solid #ccc;
+  padding:1px;
+  height:52px;
+  width:52px
+  }
 
 .venue_cover{
   width:160px;
@@ -550,8 +565,8 @@ input.todo:hover{
 }
 
 .venue_thumb_cover{
-  width:80px;
-  height:60px;
+  width:48px;
+  height:48px;
   }
 
 .venue_thumb_box,.project_thumb_box{float:left;padding:4px 0 10px}

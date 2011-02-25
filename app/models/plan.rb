@@ -5,7 +5,6 @@ class Plan < ActiveRecord::Base
   belongs_to :user,     :counter_cache => true
   belongs_to :parent,   :class_name => 'Plan',:foreign_key => :parent_id
   has_one    :record
-  has_many   :comments, :as => :commentable, :dependent => :destroy
   has_many   :syncs,    :as => :syncable,    :dependent => :destroy
   has_many   :plans
   has_many   :children, :class_name => 'Plan' ,:foreign_key => :parent_id
@@ -35,22 +34,16 @@ class Plan < ActiveRecord::Base
   end
 
   def status
-    if for_what == 'money'
-      "已有#{self.calling.users_count}人要捐赠#{self.calling.plans.map(&:money).sum}元，还需要#{self.calling.remaining_number}元"
-    elsif for_what == 'goods'
-      "已有#{self.calling.users_count}人要捐赠#{self.calling.plans.map(&:goods).sum}#{self.calling.unit}，还需要#{self.calling.remaining_number}#{self.calling.unit}"
-    elsif for_what == 'time'
-      "已有#{self.calling.users_count}人要参加，还需要#{self.calling.remaining_number}人"
-    end
+    self.calling.status
   end
   
   def description
     if self.action.slug == 'money_donation'
-      "要为#{self.venue.name}捐款#{self.money}元，用于#{self.calling.donate_for}"
+      "捐款#{self.money}元，用于#{self.calling.donate_for}"
     elsif self.action.slug == 'goods_donation'
-      "要为#{self.venue.name}捐赠#{self.goods}#{self.calling.unit}#{self.calling.goods_is}"
+      "#{self.goods}#{self.calling.unit}#{self.calling.goods_is}"
     elsif self.action.slug == 'volunteer_service'
-      "要在#{self.formatted_plan_at}去#{self.venue.name}#{self.calling.do_what}"
+      "在#{self.formatted_plan_at}去#{self.calling.do_what}"
     end
   end
   

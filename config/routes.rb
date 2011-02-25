@@ -17,10 +17,10 @@ Igee::Application.routes.draw do
   match 'actions' => 'site#actions'
   match 'unread_comments' => 'site#unread_comments'
   match 'unread_plans' => 'site#unread_plans'
-  match 'unread_venues' => 'site#unread_venues'
   match 'unread_followers' => 'site#unread_followers'
-
-  match 'my_timeline' => 'site#my_timeline'
+  match 'unread_venues' => 'site#unread_venues'
+  
+  match 'more_timeline' => 'site#more_timeline'
   match 'city_timeline' => 'site#city_timeline'
   
   match 'oauth(/:action)' => 'oauth#(/:action)'
@@ -86,6 +86,7 @@ Igee::Application.routes.draw do
   
   resources :follows
   resources :topics
+  resources :sayings
   resources :comments
   resources :photos
   resources :actions
