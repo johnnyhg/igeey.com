@@ -14,8 +14,8 @@ class Venue < ActiveRecord::Base
   has_many   :topics,     :as => :forumable,:dependent => :destroy
   has_many   :sayings,   :dependent => :destroy  
 
-  has_attached_file :cover, :styles => {:_48x48 => ["48x48#"],:_100x100 => ["100x100#"]},
-                            :url=>"/media/:attachment/venues/:id/:style.:extension",
+  has_attached_file :cover, :styles => {:_48x48 => ["48x48#",:jpg],:_100x100 => ["100x100#",:jpg]},
+                            :url=>"/media/:attachment/venues/:id/:style.jpg",
                             :default_style=> :_100x100,
                             :default_url=>"/defaults/:attachment/venue/:style.png"
 
@@ -74,7 +74,6 @@ class Venue < ActiveRecord::Base
     indexes intro
     indexes geo.name,:as => :city
     indexes address
-    
     has geo_id
   end
   

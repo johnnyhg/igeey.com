@@ -9,7 +9,7 @@
   $(document).ready(function(){
     $(".open_dialog").click(function(){dialog($(this).attr('title'),("url:"+$(this).attr('href')),"570px","auto","text");  return false;})
     $('#dialog_flash a').click();
-    $(".timeago").each(function(){$(this).html('(' + jQuery.timeago($(this).html()) + ')' )});
+    $(".timeago").each(function(){$(this).html('(' + jQuery.timeago($(this).html()) + ')' );$(this).removeClass('timeago')});
     $('.more_items').click(function(){
       var container = $(this);
       container.html('读取中...')
@@ -60,6 +60,7 @@
       $(activeTab).fadeIn();
       return false;
     });
+ 
     $('pre').each(function(index){$(this).html($(this).html().replace(/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-|!)+)/g, "<a href='$1$2' target='_blank' rel='nofollow'>$1$2</a>"))});
     
     $('.event_reply').click(function(){$(this).parent().next().toggle();return false})
@@ -68,7 +69,5 @@
         reply_field.val($(this).attr('title'));
         reply_field.focus();
         return false;
-        })
-    
-  });
-  
+        })   
+  })
