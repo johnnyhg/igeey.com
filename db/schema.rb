@@ -95,10 +95,14 @@ ActiveRecord::Schema.define() do
 
   create_table "photos", :force => true do |t|
     t.integer  :user_id
+    t.integer  :venue_id
     t.integer  :imageable_id
     t.string   :imageable_type
     t.string   :title,       :limit => 40
+    t.text     :detail
     t.string   :photo_file_name
+    t.integer  :comments_count
+    t.boolean  :has_new_comment,  :default => false
     t.timestamps
   end
   
@@ -258,6 +262,7 @@ ActiveRecord::Schema.define() do
     t.integer  :venue_id
     t.text     :content
     t.integer  :comments_count
+    t.boolean  :has_new_comment
     t.datetime :last_replied_at
     t.integer  :last_replied_user_id
     t.timestamps

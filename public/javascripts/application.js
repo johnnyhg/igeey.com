@@ -9,7 +9,7 @@
   $(document).ready(function(){
     $(".open_dialog").click(function(){dialog($(this).attr('title'),("url:"+$(this).attr('href')),"570px","auto","text");  return false;})
     $('#dialog_flash a').click();
-    $(".timeago").each(function(){$(this).html('(' + jQuery.timeago($(this).html()) + ')' );$(this).removeClass('timeago')});
+    $(".timeago").each(function(){$(this).html('(' + jQuery.timeago($(this).html()) + ')');$(this).removeClass('timeago')});
     $('.more_items').click(function(){
       var container = $(this);
       container.html('读取中...')
@@ -47,7 +47,7 @@
       $('input[placeholder!=""]').hint();
     };
     
-    $(".upload_photo_link").click(function(){dialog($(this).attr('title'),("id:upload_photo_" + $(this).attr('tag')),"570px","auto","text");  return false;});
+    $(".upload_photo_link").click(function(){dialog($(this).attr('title'),("id:upload_photo_venue_" + $(this).attr('tag')),"570px","auto","text");  return false;});
     
     $(".tabContents").hide();
     $(".tabContents:first").show();
