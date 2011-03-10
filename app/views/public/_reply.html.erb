@@ -1,6 +1,6 @@
 <div class="reply">
   <div class='avatar' user_id="<%=reply.user.id%>">
-    <%= link_to (image_tag reply.user.avatar.url,:class => "user_avatar",:style =>"width:36px;height:36px;"),reply.user%>
+    <%= link_to (image_tag reply.user.avatar.url,:class => "thumb_avatar"),reply.user%>
   </div>
   <div style="width:420px;float:right;padding:2px 0 10px;">
     <pre><%= link_to reply.user.login,reply.user %>：<%= reply.content %> </pre>
