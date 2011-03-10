@@ -392,12 +392,6 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
   zoom:1
   }
 
-
-.sidebar_panel li{
-  padding-bottom:6px;
-  border-bottom:1px dashed #9bd;
-  }
-
 .bubble{
   float:left;
   width:470px;
@@ -627,7 +621,7 @@ input.todo:hover{
     border:none;
     }
 
-#my_news a{display:block;margin:4px}
+#notices a{margin:4px}
 
 #error_explanation{
   text-align:left;
