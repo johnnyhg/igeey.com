@@ -12,12 +12,12 @@ Igee::Application.routes.draw do
   match 'guide' => 'site#guide'
   match 'faq' => 'site#faq'
   
+  match 'public'  => 'site#public'
   match 'followings' => 'site#followings'
   match 'actions' => 'site#actions'
   match 'unread_comments' => 'site#unread_comments'
   match 'unread_plans' => 'site#unread_plans'
   match 'unread_followers' => 'site#unread_followers'
-  match 'unread_venues' => 'site#unread_venues'
   
   match 'more_timeline' => 'site#more_timeline'
   match 'city_timeline' => 'site#city_timeline'
@@ -38,6 +38,8 @@ Igee::Application.routes.draw do
       get :cover
       get :position
       get :records
+      get :followers
+      get :more_items
     end
     resources :sayings
   end
@@ -95,6 +97,7 @@ Igee::Application.routes.draw do
     end
   end
   
+  #short_url
   match "/v/:id" => redirect("/venues/%{id}")
   match "/c/:id" => redirect("/callings/%{id}")
   match "/r/:id" => redirect("/records/%{id}")

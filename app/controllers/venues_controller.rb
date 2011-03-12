@@ -31,10 +31,10 @@ class VenuesController < ApplicationController
     @timeline = @venue.callings
     @timeline += @venue.records.where(:calling_id => nil)
     @timeline = @timeline.sort{|x,y| y.created_at <=> x.created_at }
-    @photos = @venue.photos
-    @topics = @venue.topics
-    @sayings = @venue.sayings
-    @followers = @venue.followers
+    @photos = @venue.photos.limit(7)
+    @topics = @venue.topics.limit(7)
+    @sayings = @venue.sayings.limit(7)
+    @followers = @venue.followers.limit(8)
   end
   
   def edit
@@ -68,9 +68,22 @@ class VenuesController < ApplicationController
     respond_with(@records)
   end
   
+  def followers
+    @followers = @venue.followers.paginate(:page => params[:page], :per_page => 20)
+  end
+  
+  def more_items
+    @items = eval({:followers => '@venue.followers[8..-1]',
+                   :photos => "@venue.photos.paginate(:page => #{params[:page]}, :per_page => 6)",
+                   :sayings => "@venue.sayings.paginate(:page => #{params[:page]}, :per_page => 6)",
+                   }[params[:items].to_sym])
+    render :layout => false
+  end
+  
   private
   def find_venue
     @venue = Venue.find(params[:id])
+    
   end
 
 end

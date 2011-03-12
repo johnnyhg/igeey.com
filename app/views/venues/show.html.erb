@@ -32,12 +32,14 @@
       <% end %>
     </div>
     <%= render :partial => 'public/saying',:collection => @sayings %>
+    <%= link_to raw("查看更多 &#8744;"),more_items_venue_path(@venue,:items => 'sayings',:page => 2),:class => "more_items" if @sayings[6].present?%>
   </div>
   <div id="photo_timeline" class="tabContents">
     <div style="text-align:right;margin:16px 0 8px;" >
       <%= render :partial => "/photos/uploader",:locals => {:venue => @venue}%>
     </div>
-    <%= render :partial => "/public/photo",:collection => @photos %>    
+    <%= render :partial => "/public/photo",:collection => @photos %>
+    <%= link_to raw("查看更多 &#8744;"),more_items_venue_path(@venue,:items => 'photos',:page => 2),:class => "more_items" if @photos[6].present?%>
   </div>
   <div id="record_timeline" class="tabContents">      
     <div style="text-align:right;margin:16px 0 8px;" >
@@ -63,7 +65,13 @@
     </div>
   </div>
   -->
-  <%= render :partial => "/public/followers" %>
+    
+  <div class="box">
+    <span style="float:right"><%= link_to "查看全部",followers_venue_path(@venue)%></h4></span>
+    <h4><%= "#{@venue.follows.size}人关注这里："%></h4>
+    <%= render :partial => "/users/user",:collection => @followers[0..7] %>
+  </div>
+
   <div class="box">
     <h4>地图：</h4>
     <div id="map_canvas" style="width:248px;height:160px;"></div>
