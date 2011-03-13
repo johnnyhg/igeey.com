@@ -71,12 +71,5 @@
         reply_field.val($(this).attr('title'));
         reply_field.focus();
         return false;
-<<<<<<< HEAD
-
-        })
-    
-  })
-=======
     });
   })
->>>>>>> a8a2ebaeb8dff23961c4aaeee12ab339925d3e7c
