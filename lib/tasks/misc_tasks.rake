@@ -104,6 +104,6 @@ namespace :misc do
         v.save(false)
       end  
     end
-    puts("end at id:#{Venue.first.id}")
+    puts("complete at id:#{Venue.first.id}")
   end
 end
