@@ -10,7 +10,7 @@ body,h1{margin:0}
 h3{font-size:17px}
 
 h3,h4,h5,h6{
-    margin:0.2em 0 0.6em;
+    margin:0.2em 0 0.5em;
     color:#666;
     }
     
@@ -244,8 +244,10 @@ button:hover,.button:hover{background-color:#ff9f10;color:white;}
 }
 
 .explanation{
-  color:#888;
+  color:#777;
+  margin-bottom:4px;
   font-size:12px;
+  line-height:18px;
   font-weight:normal;
   }
 
