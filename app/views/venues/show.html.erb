@@ -1,83 +1,123 @@
 <% @title = @venue.name %>
+<% @saying = Saying.new %>
+<% @photo = Photo.new %>
+<% @calling = Calling.new %>
+<% @topic = Topic.new %>
 <% content_for :head do %>
+  <%= javascript_include_tag 'calendar.js' %>
   <script type="text/javascript" src="http://ditu.google.cn/maps/api/js?sensor=false"></script>
 <% end %>
 
-<div class="box">
-    <%= image_tag(@venue.cover.url,:class => "venue_cover") %>    
-  <div style="width:488px;_width:478px;;margin-left:120px;margin-bottom:10px">
-    <div style="float:right;padding:2px 0"><%= raw(follow_to(@venue)) %></div>
-    <h3><%= @venue.name%> <span><%= @venue.geo.full_name %></span></h3>
+<div class="box" id="venue_head">
+  <h3 style="margin-left:10px;margin-top:5px;">欢迎来到<%= @venue.name%>　<span><%= @venue.geo.full_name %></span></h3>
+  <div id="more_info">
     <pre style="font-size:13px"><%= @venue.intro%></pre>
-    <span><%= "地址： #{@venue.address}" unless @venue.address.blank?%>　　<%= "联系方式： #{@venue.contact}" unless @venue.contact.blank?%></span>
+    <span>
+      <%= "地址： #{@venue.address}" unless @venue.blank?%><br/>
+      <%= "联系方式： #{@venue.contact}" unless @venue.contact.blank?%>
+    </span>
     <br/>
     <span>
     <%= link_to "#{@venue.cover_file_name ? '更新' : '上传'}主题图",cover_venue_path(@venue),:class => "open_dialog",:title => "#{@venue.cover_file_name ? '更新' : '上传'}主题图" if logged_in? && @venue.creator == current_user%>
     <%= link_to '更新信息',edit_venue_path(@venue),:id => 'update_info' if logged_in? && @venue.creator == current_user %>
     </span>
   </div>
-</div>
-
-<div id="tabContaier">
-  <ul>
-    <li><%= link_to '报到','#checkin_timeline'%></li>
-    <li><%= link_to '照片','#photo_timeline'%></li>
-    <li><%= link_to '故事','#topic_timeline'%></li>
-    <li><%= link_to '行动','#record_timeline'%></li>
-  </ul>
-  <div id="checkin_timeline" class="tabContents">
-    <div style="padding:15px;">
-      <% @checkin = Saying.new %>
-      <%= form_for [@venue,@checkin] do |form| %>
-        <%= form.hidden_field :venue_id,:value => @venue.id %>
-        <%= form.text_area  :content,:style=> "margin:0;width:576px;height:64px" ,:placeholder => "今天你想和#{@venue.name}的朋友们说什么？"%>
+  
+    <%= render :partial => "/venues/venue",:object => @venue %>
+    <div style="position:absolute;margin-top:84px;margin-left:3px"><%= raw(follow_to(@venue)) %></div>
+  <div style="width:520px;_width:510px;;margin:10px 0 10px 80px">
+    <div id="formContaier">
+      <%= form_for [@venue,@saying] do |form| %>
+        <div class='venue_form'>
+          <div class='venue_form_title'>我要在这里报到：</div>
+          <%= form.hidden_field :venue_id,:value => @venue.id %>
+          <%= form.text_area  :content,:style => 'height:48px',:placeholder => "今天你想和#{@venue.name}的朋友们说什么？"%>
+        </div>  
         <p style="text-align:right">
-          <%= form.submit '发 布',:class => "gary_button"%>
+          <%= form.submit '确 定',:class => "gary_button"%>
         </p>
       <% end %>
+      
+      <%= form_for @photo,:html => { :multipart => true } do |form| %>
+        <%= form.hidden_field :venue_id,:value => @venue.id %>
+        <div class='venue_form'>
+          <div class='venue_form_title'>我要为这里上传照片：</div>
+          <%= form.label :title,'选择文件：'%> <%= form.file_field :photo,:style => "background:none;border:none;font-size:13px" %>
+          <%= form.text_area :detail,:placeholder => '说说这张照片的背后的故事吧？'%>
+        </div>
+        <p style="text-align:right">
+          <%= form.submit '确 定',:class => "gary_button"%>
+        </p>
+      <% end %>
+      
+      <%= form_for @topic do |form| %>
+          <div class='venue_form'>
+          <div class='venue_form_title'>我要在提交这里的故事：</div>
+            <%= raw error_explanation_for(@topic) if @topic.errors.present?%>  
+            <%= form.label :title,'标题：'%> <%= form.text_field :title,:size => 20,:placeholder => '来个简洁响亮的题目吧'%>
+            <br/>
+            <%= form.text_area :content,:style => "height:96px",:placeholder => '故事的正文，不限字数!'%>
+            <%= form.hidden_field :venue_id ,:value => @venue.id %>
+          </div>
+          <p style="text-align:right">
+          <%= form.submit '确 定',:class => "gary_button"%>
+          </p>
+      <% end %>
+      <%= form_for @calling do |form| %>
+        <div class='venue_form'>
+          <div class='venue_form_title'>我要在这里召集行动：</div>
+          <%= raw error_explanation_for(@calling) if @calling.errors.present?%>
+          <%= form.hidden_field :action_id,:value => 1%>
+          <%= form.hidden_field :venue_id,:value => @venue.id %>
+          <%= form.label 'title','行动标题：'%> <%= form.text_field :title, :size => 20, :placeholder => "" %><br/>
+          <%= form.label 'total_people','需要人数：'%> <%= form.text_field :total_people, :size => 3, :placeholder => "" %>　
+          <%= form.label 'total_people','行动时间：'%><%= form.text_field :do_at, :size => 8,:class => 'with_calendar',:placeholder => ""%><br/>
+          <%= form.label 'address','集合地址：'%> <%= form.text_field :address, :size => 24, :placeholder => '',:style => "text-align:left" %><br/>
+          <%= form.label 'contact','联系方式：'%> <%= form.text_field :contact, :size => 24, :placeholder => '',:style => "text-align:left" %><br/>
+          <%= form.label 'detail','详细信息：'%>(字数要求：50-1000字)　目前字数：<span id="character_count"></span>
+          <%= form.text_area :detail,:placeholder => '请说明你发起召集的原因、响应你的召集需要做什么。'%>
+        </div>
+        <p style="text-align:right">
+          <%= form.submit '确 定',:class => "gary_button"%>
+        </p>
+      <% end %>
+
+      <ul>
+        <li><%= link_to raw("#{image_tag('/images/icon/saying.gif',:class => 'icon')} 报到"),'#new_saying'%></li>
+        <li><%= link_to raw("#{image_tag('/images/icon/photo.gif',:class => 'icon')} 照片"),'#new_photo'%></li>
+        <li><%= link_to raw("#{image_tag('/images/icon/topic.png',:class => 'icon')} 故事"),'#new_topic'%></li>
+        <li><%= link_to raw("#{image_tag('/images/icon/calling.png',:class => 'icon')} 召集"),'#new_calling'%></li>
+      </ul>
     </div>
-    <%= render :partial => 'public/saying',:collection => @sayings %>
-    <%= link_to raw("查看更多 &#8744;"),more_items_venue_path(@venue,:items => 'sayings',:page => 2),:class => "more_items" if @sayings[6].present?%>
   </div>
-  <div id="photo_timeline" class="tabContents">
-    <div style="text-align:right;margin:16px 0 8px;" >
-      <%= render :partial => "/photos/uploader",:locals => {:venue => @venue}%>
-    </div>
-    <%= render :partial => "/public/photo",:collection => @photos %>
-    <%= link_to raw("查看更多 &#8744;"),more_items_venue_path(@venue,:items => 'photos',:page => 2),:class => "more_items" if @photos[6].present?%>
-  </div>
-  <div id="topic_timeline" class="tabContents">
-    <div style="text-align:right;margin:16px 0 8px;" >
-      <%= link_to '写新故事',(logged_in? ? "#{new_topic_path}?venue_id=#{@venue.id}" : login_path),:class => "gary_button open_dialog",:title => '写新故事',:style=>'font-size:13px'%>
-    </div>
-    <%= render :partial => "/public/topic",:collection => @topics %>
-    <%= link_to raw("查看更多 &#8744;"),more_items_venue_path(@venue,:items => 'topics',:page => 2),:class => "more_items" if @topics[6].present?%>
-  </div>
-  <div id="record_timeline" class="tabContents">      
-    <div style="text-align:right;margin:16px 0 8px;" >
-      <%= link_to '召集行动',(logged_in? ? "#{new_calling_path}?venue_id=#{@venue.id}" : login_path),:class => "gary_button open_dialog",:title => '召集行动',:style=>'font-size:13px'%>
-      <%= link_to '记录行动',(logged_in? ? "#{new_record_path}?venue_id=#{@venue.id}" : login_path),:class => "gary_button open_dialog",:title => '记录行动',:style=>'font-size:13px'%>
-    </div>
-    <%= render :partial => '/public/event', :collection => @timeline %>
-  </div>
+</div>
+
+<div class="box">
+  <h4>这里的新鲜事..</h4>
+  <%= render :partial => '/public/event', :collection => @timeline %>
 </div>  
 
+<% if [@venue.follows_count,@venue.sayings_count,@venue.records_count,@venue.photos_count].sum.zero? %>
+<div id="freshman" style="display:none">
+  <div>
+    <h2>欢迎拓荒者到来！</h2>
+    <p>Hi，你是第一个来到这里的人。</p>
+    <p>你很熟悉<%= @venue.name%>吧？或者在这里留下了珍贵的回忆。</p>
+    <p>去用"报到"功能去吼一下吧，向后来者打个招呼。</p>
+    <p style="padding:4px 10px;">
+    </p>
+    <br/>
+    <p style="text-align:right">
+      <%= link_to '知道了', "#",:class => 'button',:onclick => "javascript:$('#floatBox #close_dialog').click();return false"%>
+    </p>
+  </div>
+</div>
+<script type="text/javascript">
+  dialog('欢迎',("id:freshman"),"570px","auto","text")
+</script>
+<% end %>
 
 <% content_for :sidebar do %>
-  <!--
-  <div class="box">
-    <h4>获得服务统计：</h4>
-    <div id="record_counters">
-      <% [[@venue.time_count,'志愿小时'],[@venue.goods_count,'物资捐赠'],[@venue.online_count,'线上行动']].each do |counter_list|%>
-        <div class="record_counter_wrapper">
-          <h4><%= counter_list[1] %></h4>
-          <h2 class="record_counter"><%= counter_list[0] %></h2>
-        </div>
-      <%end%>
-    </div>
-  </div>
-  -->
-    
   <div class="box">
     <span style="float:right"><%= link_to "查看全部",followers_venue_path(@venue)%></h4></span>
     <h4><%= "#{@venue.follows.size}人关注这里："%></h4>
@@ -89,12 +129,13 @@
     <h4>地图：</h4>
     <div id="sidebar_map_canvas" style="width:248px;height:160px;"></div>
   </div>
+
 <% end %>
 
 
 <% content_for :extension do %>
   <script type="text/javascript">
-    function initialize() {
+      function initialize() {
       var latlng = new google.maps.LatLng(<%= "#{@venue.latitude || 35.0},#{@venue.longitude || 105.0}"%>)
       var myOptions = {
         zoom: 14 ,
@@ -114,36 +155,29 @@
         map: small_map,
         position: small_map.getCenter(),
         title: '<%= @venue.name %>'
-      });
-      
-      infowindow = new google.maps.InfoWindow;
-      
-      //$('.find_tagged_with').each(function(){
-      //  var tag = $(this).html()
-      //  var title = $(this).attr('title')
-      //  markers[title] = new Array();
-      //  $.getJSON(('<%= records_venue_path(@venue,:format => :json)%>?marker=true' ) , function(data){
-      //    $.each(data, function(i,item){
-      //        markers[title][i] = new google.maps.Marker({
-      //          icon: "/images/marker/" + item.record.slug + ".png",
-      //          position: new google.maps.LatLng(parseFloat(item.record.latitude), parseFloat(item.record.longitude)),
-      //          title: item.record.name,
-      //          map: map
-      //        });
-      //        google.maps.event.addListener(markers[title][i], "click", function(){
-      //          $.ajax({
-      //            url:"/records/" + item.record.id + ".xml",
-      //            success:function(data, textStatus, XMLHttpRequest){infowindow.close();infowindow = new google.maps.InfoWindow({content:XMLHttpRequest.responseText});infowindow.open(map,markers[title][i]);},
-      //            dataType:'xml'
-      //          })
-      //        })
-      //      });
-      //  });
-      //});      
-    }; //initialize_end()
-
+      });    
+      infowindow = new google.maps.InfoWindow;     
+    }; //initialize_end
+    
     $(document).ready(function(){
-      initialize();
+      $("#formContaier form:first").show();
+      $("#formContaier ul li a:first").addClass("active");
+    <% if logged_in? %>  
+      $("#formContaier ul li a").click(function(){ 
+        var activeTab = $(this).attr("href"); 
+        $("#formContaier ul li a").removeClass("active"); 
+        $(this).addClass("active");
+        $("#formContaier form").hide();
+        $(activeTab).show();
+        return false;
+      });
+    <% else %>
+      $("#formContaier ul li a").click(function(){$('#login').click();return false;})
+    <% end %>
+      $('#toggle_info').toggle(
+        function(){$('#more_info').show()},
+        function(){$('#more_info').hide()}
+      )
       $('.new_comment').submit(function(){
         var size = $(this).find('input[type=text]').val().length
         if ( size >= 140){
@@ -158,8 +192,15 @@
           return false
           }          
         });
+      DateTimeShortcuts.init()
+      function updateCount() {
+      document.getElementById("character_count").innerHTML = document.getElementById("calling_detail").value.length;
+      setTimeout(updateCount, 400);
+       }
+      updateCount();
       initialize();
       setTimeout(function(){$.post('<%= watching_venue_path(@venue)%>')},5000)
+      
     });  
   </script>
 <% end %>

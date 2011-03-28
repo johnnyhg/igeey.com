@@ -7,6 +7,7 @@ class SiteController < ApplicationController
       @followings = current_user.followings.where(:followable_type => 'Venue' ).map(&:followable)
       @followings.each do |v|
         @timeline += v.callings.not_closed.limit(10)
+        @timeline += v.topics.limit(10)
         @timeline += v.sayings.limit(10)
         @timeline += v.photos.limit(10)
         @timeline += v.topics.limit(10)
@@ -24,7 +25,7 @@ class SiteController < ApplicationController
       @timeline += v.callings.not_closed.limit(30)
       @timeline += v.sayings.limit(30)
       @timeline += v.photos.limit(30)
-      @timeline += v.topics.limit(10)
+      @timeline += v.topics.limit(30)
     end
     @timeline = @timeline.sort{|x,y| y.created_at  <=> x.created_at}[0..200].paginate(:page => params[:page], :per_page => 10)
     render :layout => false

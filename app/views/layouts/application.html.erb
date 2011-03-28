@@ -11,7 +11,8 @@
   <%= javascript_include_tag 'jquery.poshytip.min.js' %>
   <%= javascript_include_tag 'jquery.hint.js' %>
   <%= javascript_include_tag "jquery.timeago.js" %>
-  <%= javascript_include_tag 'application.js' %>
+  <%= javascript_include_tag 'application' %>
+  <%= raw '<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>' if Rails.env == 'development'%>
   <%= csrf_meta_tag %>
   <%= yield :head %>
 </head>

@@ -39,7 +39,7 @@ Igee::Application.routes.draw do
       get  :position
       get  :records
       get  :followers
-      get  :more_items
+      get  :more_timeline
       post :watching
     end
     resources :sayings
@@ -94,11 +94,6 @@ Igee::Application.routes.draw do
   end
   resources :photos
   resources :actions
-  resources :projects do
-    member do
-      get :records
-    end
-  end
   
   #short_url
   match "/v/:id" => redirect("/venues/%{id}")
