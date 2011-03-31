@@ -3,6 +3,8 @@ class Photo < ActiveRecord::Base
   belongs_to :venue,     :counter_cache => true
   belongs_to :imageable, :polymorphic => true
   
+  acts_as_taggable
+  
   has_many   :comments, :as => :commentable, :dependent => :destroy
   has_many   :votes,    :as => :voteable,    :dependent => :destroy
   

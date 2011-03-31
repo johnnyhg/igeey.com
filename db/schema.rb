@@ -31,14 +31,14 @@ ActiveRecord::Schema.define() do
   end
   
   create_table "grants", :force => true do |t|
-    t.integer  :user_id,    :null => false
+    t.integer  :user_id
     t.integer  :badge_id
     t.boolean  :unread,     :default => true
     t.timestamps
   end
   
   create_table "comments", :force => true do |t|
-    t.integer  :user_id,    :null => false
+    t.integer  :user_id
     t.text     :content
     t.integer  :commentable_id
     t.string   :commentable_type, :limit => 40
@@ -47,14 +47,14 @@ ActiveRecord::Schema.define() do
   end
   
   create_table "votes", :force => true do |t|
-    t.integer  :user_id,    :null => false
+    t.integer  :user_id
     t.integer  :voteable_id
     t.string   :voteable_type, :limit => 40
     t.timestamps
   end
 
   create_table "follows", :force => true do |t|
-    t.integer  :user_id,    :null => false
+    t.integer  :user_id
     t.boolean  :unread,           :default => true
     t.integer  :followable_id
     t.string   :followable_type, :limit => 40
@@ -259,18 +259,19 @@ ActiveRecord::Schema.define() do
     t.timestamps
   end
   
-  create_table :tags do |t|
-    t.column :name, :string
+  create_table "tags" do |t|
+    t.string :name
+    t.timestamps
   end
-  
-  create_table :taggings do |t|
-    t.column :tag_id, :integer
-    t.column :taggable_id, :integer
-    
-    # You should make sure that the column created is
-    # long enough to store the required class names.
-    t.column :taggable_type, :string
-    t.column :created_at, :datetime
+
+  create_table "taggings" do |t|
+    t.references :tag
+    t.references :taggable, :polymorphic => true
+    t.references :tagger, :polymorphic => true
+    t.string :context
+    t.timestamps
   end
-  
+
+  # add_index :taggings, :tag_id
+  # add_index :taggings, [:taggable_id, :taggable_type, :context]  
 end
