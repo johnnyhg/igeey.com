@@ -94,6 +94,8 @@ Igee::Application.routes.draw do
   end
   resources :photos
   resources :actions
+
+  resources :votes
   
   #short_url
   match "/v/:id" => redirect("/venues/%{id}")
