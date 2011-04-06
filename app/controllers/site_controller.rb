@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
-  before_filter :login_required, :except=> [:index,:faq,:guide,:about,:report,:public]
+  before_filter :login_required, :except=> [:index,:faq,:guide,:about,:report,:public,:explore]
   
   def index
     if logged_in?
@@ -37,6 +37,12 @@ class SiteController < ApplicationController
     @timeline += Photo.limit(30)
     @timeline += Topic.limit(30)
     @timeline = @timeline.sort{|x,y| y.created_at  <=> x.created_at  }[0..30]
+  end
+  
+  def explore
+    @new_callings = Calling.not_closed.limit(10)
+    @new_photos = Photo.limit(10)
+    @hot_venues = Venue.get_hot.shuffle[0..5]
   end
   
   def city_timeline

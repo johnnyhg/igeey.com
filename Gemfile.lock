@@ -34,8 +34,8 @@ GEM
     capistrano (2.5.20)
       highline
       highline
-      net-scp (>= 1.0.0)
       net-scp
+      net-scp (>= 1.0.0)
       net-sftp
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
@@ -57,6 +57,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memcache-client (1.8.5)
     mime-types (1.16)
     mysql (2.8.1)
     net-scp (1.0.4)
@@ -118,6 +119,7 @@ DEPENDENCIES
   date_validator
   exception_notification_rails3
   json
+  memcache-client
   mysql (= 2.8.1)
   oauth
   paperclip
