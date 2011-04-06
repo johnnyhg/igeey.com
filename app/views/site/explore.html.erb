@@ -1,0 +1,25 @@
+<% @title = '探索'%>
+
+<% content_for :sidebar do %>
+<h3>最新的召集</h3>
+<% @new_callings.each do |calling| %>
+	<p style="width:250px; border-bottom:1px dashed #ccc; margin:0px 0px 10px;">
+		<%= link_to calling.title, calling_path(calling)%></br>
+	<span><%= "#{calling.status}"%></span>
+	</p>
+<%end%>
+<%end%>
+
+<h3 style="color:#78A">活跃的地点</h3>
+</br>
+<% @hot_venues.each do |venue| %>
+	<div style="float:left; width:49%; height:60px; margin:0 0 10px; border-bottom:1px dashed #ccc;">
+  		<div style="width:48px; height:48px; float:left;">
+			<%= link_to image_tag(venue.cover.url(:_48x48),:alt => venue.name),venue,:title => venue.name %>
+		</div>
+		<div style="margin-left:60px; padding-right:10px;">
+			<h4><%= link_to short_text(venue.name, 14), venue_path(venue)%></h4>
+			<span><%= short_text(venue.intro, 30)%></span>
+		</div>
+	</div>
+<%end%>

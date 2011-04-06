@@ -35,6 +35,23 @@ class Venue < ActiveRecord::Base
   validates :cover_file_name,:format => { :with => /([\w-]+\.(gif|png|jpg))|/ }
   
   default_scope :order => 'follows_count desc'
+  scope :hot_venues, :order => 'watch_count desc',:limit => 20
+  
+  # mc_key = "hot_venues"
+  # cache 3600*24 = 1 day
+  def self.get_hot
+    r=CACHE.get("hot_venues") or r=self.hot_venues.to_a and CACHE.set("hot_venues", r, 3600*24)
+    return r
+    #if CACHE.get("hot_venues").nil?
+    #  @r = self.hot_venues
+    #  puts @r
+    #  CACHE.set("hot_venues", @r, 3600*24)
+    #  return @r
+    #else
+    #  puts 'xxxxx'
+    #  CACHE.get("hot_venues")
+    #end
+  end
   
   def category_name
     CATEGORIES_HASH[self.category]

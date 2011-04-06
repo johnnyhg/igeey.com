@@ -17,6 +17,7 @@ gem 'will_paginate', '~> 3.0.beta'
 gem 'thinking-sphinx', '2.0.0', :require => 'thinking_sphinx'
 gem 'exception_notification_rails3', :require => 'exception_notifier'
 gem 'acts-as-taggable-on'
+gem 'memcache-client'
 
 #gem 'geokit'
 #gem 'geokit-rails'
