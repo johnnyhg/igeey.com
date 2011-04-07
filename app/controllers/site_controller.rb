@@ -45,6 +45,14 @@ class SiteController < ApplicationController
     @new_callings = Calling.not_closed.limit(10)
     @new_photos = Photo.limit(10)
     @hot_venues = Venue.get_hot.shuffle[0..5]
+    if params[:ver] == '1'
+      render '/site/explore1.html.erb'
+    elsif params[:ver] == '2'
+      @hot_venues = Venue.get_hot.shuffle[0..7]
+      render '/site/explore2.html.erb'
+    else
+      render '/site/explore.html.erb'
+    end
   end
   
   def city_timeline
