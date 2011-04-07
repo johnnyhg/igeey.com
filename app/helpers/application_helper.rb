@@ -38,4 +38,15 @@ module ApplicationHelper
     html += '</ul>'
   end
   
+  def tag_links_for(object)
+    if object.tag_list.empty?
+      return ' '
+    else
+      html = '<span>标签： '
+      html += object.tag_list[0..2].map{|tag| "#{link_to(tag,name_tags_path(:name => tag,:filter => object.class))}\n"}.to_s
+      html += '...' if object.tag_list[3]
+      html += '</span>'
+    end
+  end
+  
 end
