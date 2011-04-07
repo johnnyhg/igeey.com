@@ -14,11 +14,11 @@
 </br>
 <% @hot_venues.each do |venue| %>
 	<div style="float:left; width:49%; height:60px; margin:0 0 10px; border-bottom:1px dashed #ccc;">
-  		<div style="width:48px; height:48px; float:left;">
-			<%= link_to image_tag(venue.cover.url(:_48x48),:alt => venue.name),venue,:title => venue.name %>
+  		<div style="width:100px; height:100px; float:left;">
+			<%= link_to image_tag(venue.cover.url(:_100x100),:alt => venue.name),venue,:title => venue.name %>
 		</div>
 		<div style="margin-left:60px; padding-right:10px;">
-			<h4><%= link_to short_text(venue.name, 14), venue_path(venue)%><span>(<%= venue.geo.full_name %>)</span></h4>
+			<h4><%= link_to short_text(venue.name, 14), venue_path(venue)%></h4>
 			<span><%= short_text(venue.intro, 30)%></span>
 		</div>
 	</div>
