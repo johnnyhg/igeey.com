@@ -7,3 +7,5 @@ Igee::Application.initialize!
 WillPaginate::ViewHelpers.pagination_options[:previous_label] = '&laquo; 上一页'
 WillPaginate::ViewHelpers.pagination_options[:next_label] = '&raquo; 下一页'
 CACHE = MemCache.new('localhost:11211')
+TagList.delimiter = " "
+
