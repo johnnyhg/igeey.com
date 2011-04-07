@@ -34,7 +34,7 @@ class Venue < ActiveRecord::Base
   validates :cover_file_name,:format => { :with => /([\w-]+\.(gif|png|jpg))|/ }
   
   default_scope :order => 'follows_count desc'
-  scope :hot_venues, where('intro is not null and cover_file_name is not null order by watch_count desc limit(20)')
+  scope :hot_venues, where('intro is not null and cover_file_name is not null').order('watch_count desc').limit(20)
   
   # mc_key = "hot_venues"
   # cache 3600*24 = 1 day
