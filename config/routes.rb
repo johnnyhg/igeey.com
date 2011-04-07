@@ -13,6 +13,7 @@ Igee::Application.routes.draw do
   match 'faq' => 'site#faq'
   
   match 'public'  => 'site#public'
+  match 'explore' => 'site#explore'
   match 'followings' => 'site#followings'
   match 'actions' => 'site#actions'
   match 'unread_comments' => 'site#unread_comments'
